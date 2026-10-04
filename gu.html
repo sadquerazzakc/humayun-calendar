@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="gu" data-lang="gu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>હુમાયૂન કેલેન્ડર · Humayun Calendar</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="હુમાયૂન કેલેન્ડર · Humayun Calendar">
+<meta property="og:description" content="Atba-e-Qayem">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%85%3C/text%3E%3C/svg%3E">
+<!-- Without JavaScript the loading spinner would turn for ever under the <noscript> message. -->
+<noscript><style>#s-loading{display:none!important}</style></noscript>
+<!--
+  PUBLIC SIGN-IN SHELL for calendar.atbaeqayem.org
+
+  This page holds NO calendar content. It only finds out who the visitor is (Google sign-in, or a
+  code sent by email) and asks the gatekeeper (a Google Apps Script web app) for the calendar. The
+  gatekeeper decides; nothing on this page is trusted for access.
+
+  shell/gu.html and shell/en.html are GENERATED from this file by ../build-shell-pages.js
+  (gu.html changes only the <html> line above; en.html is an exact copy kept for older links).
+  Edit this file, never those two.
+-->
+<style>
+  /* Same palette as the old password page, so members recognise it. The font list is the same too,
+     but on purpose there is NO Google Fonts <link> here: before anyone has signed in, the only third
+     party this page talks to is Google Identity. The calendar page itself loads the web font. */
+  :root{--ground:#f3efe7;--paper:#fff;--ink:#161412;--soft:#5c5650;--rule:#cfc8bc;--red:#d3261a;--focus:#1f5fbf}
+  @media (prefers-color-scheme:dark){:root{--ground:#171513;--paper:#221f1b;--ink:#efe9df;--soft:#b3aa9c;--rule:#4a433b;--red:#ff6f5f;--focus:#7fb0ff}}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--ground);color:var(--ink);
+       font:17px/1.45 "Hind Vadodara","Noto Sans Gujarati","Shruti",system-ui,sans-serif;padding:20px}
+  main{width:100%;max-width:420px;background:var(--paper);border:2px solid var(--ink);padding:10px 26px 24px}
+  @media (max-width:380px){body{padding:12px}main{padding:8px 18px 20px}}
+  h1{margin:0;color:var(--red);font-size:28px;line-height:1.15;text-align:center}
+  .sub{margin:4px 0 20px;text-align:center;color:var(--soft);font-size:15px}
+  p{margin:0 0 14px}
+  a{color:inherit}
+
+  /* Every piece of text is written in both languages. The chosen language is shown first and
+     full size; the other one sits under it, smaller. The toggle only swaps which is which. */
+  .t{display:flex;flex-direction:column;gap:2px}
+  .t>span{order:2;font-size:.84em;color:var(--soft)}
+  html[data-lang="gu"] .t>span[lang="gu"],html[data-lang="en"] .t>span[lang="en"]{order:1;font-size:1em;color:inherit}
+  .center{text-align:center}
+  .small{font-size:14.5px;color:var(--soft)}
+  .lead{font-size:18px}
+
+  .langrow{display:flex;justify-content:flex-end;margin:0 -14px 2px 0}
+  #langBtn{font:inherit;font-size:15px;font-weight:600;min-height:40px;padding:6px 12px;border:1px solid var(--rule);border-radius:4px;background:transparent;color:var(--soft);cursor:pointer}
+  html[data-lang="gu"] #langBtn .to-gu,html[data-lang="en"] #langBtn .to-en{display:none}
+
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;font:inherit;font-weight:700;padding:9px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--ink);color:var(--paper);cursor:pointer;margin:0 0 12px;text-align:center}
+  .btn>span{width:100%}
+  .btn.t>span{color:inherit;opacity:.82;font-weight:600}
+  html[data-lang="gu"] .btn.t>span[lang="gu"],html[data-lang="en"] .btn.t>span[lang="en"]{opacity:1;font-weight:700}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+  .link{display:flex;width:100%;min-height:46px;justify-content:center;font:inherit;font-size:15px;padding:8px;border:0;background:transparent;color:var(--ink);text-decoration:underline;cursor:pointer;text-align:center}
+  a:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+  label{display:flex;font-size:15px;margin-bottom:6px}
+  input[type=email],input[type=text]{width:100%;font:inherit;padding:12px;border:2px solid var(--rule);border-radius:4px;background:var(--ground);color:var(--ink);margin:0 0 14px}
+  #code{font-size:28px;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums;padding:10px 4px 10px 14px}
+
+  .msg{color:var(--red);font-size:15.5px;text-align:center;margin:0 0 14px}
+  .msg.t>span{color:inherit}
+  .who{font-weight:700;text-align:center;overflow-wrap:anywhere;word-break:break-word;padding:10px 12px;border:1px solid var(--rule);border-radius:4px;background:var(--ground)}
+  .addr{overflow-wrap:anywhere;word-break:break-word}
+
+  /* Google draws its own button inside this box; the height is reserved so nothing jumps. */
+  .gbtn{min-height:44px;display:flex;justify-content:center;margin:0 0 12px}
+  .hint{border:1px solid var(--rule);border-radius:4px;background:var(--ground);padding:12px 12px 2px;margin:0 0 14px;font-size:15.5px}
+  .hint .btn{min-height:46px;font-size:15px}
+  .or{display:flex;align-items:center;gap:10px;color:var(--soft);font-size:14px;margin:6px 0 14px}
+  .or::before,.or::after{content:"";flex:1;border-top:1px solid var(--rule)}
+  .notice{font-size:13.5px;color:var(--soft);text-align:center;margin:10px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
+  .notice.t>span{font-size:1em;color:inherit}
+
+  .spin{width:34px;height:34px;margin:10px auto 16px;border:3px solid var(--rule);border-top-color:var(--red);border-radius:50%;animation:spin .9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spin{animation-duration:4s}}
+</style>
+</head>
+<body>
+<main>
+  <div class="langrow">
+    <button id="langBtn" type="button" aria-label="ભાષા બદલો · Change language"><span class="to-en" lang="en">English</span><span class="to-gu" lang="gu">ગુજરાતી</span></button>
+  </div>
+  <h1>હુમાયૂન કેલેન્ડર</h1>
+  <p class="sub">Humayun Calendar · Atba-e-Qayem</p>
+
+  <!-- Without JavaScript nothing below can work; say so instead of spinning for ever. -->
+  <noscript>
+    <p class="t center"><span lang="gu">આ બ્રાઉઝરમાં કેલેન્ડર ખૂલી શકતું નથી. કૃપા કરી લિંક Chrome અથવા Safari માં ખોલો.</span><span lang="en">This browser cannot open the calendar. Please open the link in Chrome or Safari.</span></p>
+  </noscript>
+
+  <!-- LOADING. This is the only screen visible before the script decides what to show, so a
+       returning member never sees the sign-in box flash by. -->
+  <section class="screen" id="s-loading" role="status">
+    <div class="spin" aria-hidden="true"></div>
+    <p class="t center"><span lang="gu">એક ક્ષણ રાહ જુઓ…</span><span lang="en">One moment…</span></p>
+    <p class="t center small" id="retryNote" hidden><span lang="gu">જોડાણ ધીમું છે. ફરી પ્રયત્ન કરીએ છીએ…</span><span lang="en">The connection is slow. Trying again…</span></p>
+  </section>
+
+  <!-- SIGN IN -->
+  <section class="screen" id="s-signin" hidden>
+    <p class="t center lead"><span lang="gu">કેલેન્ડર જોવા માટે તમારા Google એકાઉન્ટથી સાઇન ઇન કરો.</span><span lang="en">Sign in with your Google account to see the calendar.</span></p>
+    <p class="t center small"><span lang="gu">પહેલી વાર? સાઇન ઇન કરીને પરવાનગી માગો; મંજૂરી મળ્યા પછી કેલેન્ડર ખૂલશે.</span><span lang="en">First time here? Sign in and ask for access; the calendar opens once you are approved.</span></p>
+    <p class="msg t" id="signinMsg" role="alert" hidden></p>
+    <div class="gbtn" id="gbtn"></div>
+    <p class="t center small" id="gwait"><span lang="gu">Google બટન આવી રહ્યું છે…</span><span lang="en">The Google button is loading…</span></p>
+    <div class="hint" id="ghint" hidden>
+      <p class="t"><span lang="gu">Google બટન દેખાતું નથી કે ચાલતું નથી? આ લિંક Chrome માં (iPhone પર Safari માં) ખોલો, અથવા નીચે ઇમેઇલ કોડ વાપરો.</span><span lang="en">Google button missing or not working? Open this link in Chrome (Safari on iPhone), or use the email code below.</span></p>
+      <button class="btn ghost t" id="copyLink" type="button"><span lang="gu">લિંક કૉપિ કરો</span><span lang="en">Copy the link</span></button>
+      <p class="t center small" id="copied" hidden><span lang="gu">લિંક કૉપિ થઈ ગઈ. હવે Chrome માં પેસ્ટ કરો.</span><span lang="en">Link copied. Now paste it in Chrome.</span></p>
+    </div>
+    <div class="or"><span>અથવા · or</span></div>
+    <button class="btn ghost t" id="toCode" type="button"><span lang="gu">ઇમેઇલ પર કોડ મેળવો</span><span lang="en">Get a code by email</span></button>
+    <p class="t notice"><span lang="gu">મુલાકાતની નોંધ રખાય છે (ઇમેઇલ અને સમય). <a href="privacy.html">ગોપનીયતા</a></span><span lang="en">Visits are recorded (email and time). <a href="privacy.html">Privacy</a></span></p>
+  </section>
+
+  <!-- EMAIL CODE: first the address, then the six digits. -->
+  <section class="screen" id="s-code" hidden>
+    <p class="msg t" id="codeMsg" role="alert" hidden></p>
+    <form id="emailForm" novalidate>
+      <label class="t" for="email"><span lang="gu">તમારું ઇમેઇલ સરનામું</span><span lang="en">Your email address</span></label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+      <label class="t" for="name"><span lang="gu">તમારું નામ (પહેલી વાર હો તો)</span><span lang="en">Your name (if this is your first time)</span></label>
+      <input id="name" name="name" type="text" autocomplete="name" autocapitalize="words" maxlength="80">
+      <p class="t small"><span lang="gu">આ ઇમેઇલ પર ૬ આંકડાનો કોડ આવશે. યાદીમાં ન હો તો કોડ લખવાથી પરવાનગી મગાશે.</span><span lang="en">A 6-digit code will be sent to this email. If you are not on the list yet, typing the code sends your request for access.</span></p>
+      <button class="btn t" type="submit"><span lang="gu">કોડ મોકલો</span><span lang="en">Send the code</span></button>
+      <button class="link t" id="haveCode" type="button" hidden><span lang="gu">મારી પાસે કોડ છે</span><span lang="en">I already have a code</span></button>
+    </form>
+    <form id="codeForm" novalidate hidden>
+      <p class="t"><span lang="gu"><b class="addr"></b> પર ૬ આંકડાનો કોડ મોકલ્યો છે. ઇનબોક્સ અને Spam બંને જુઓ. કોડ ૧૦ મિનિટ ચાલશે.</span><span lang="en">A 6-digit code has been sent to <b class="addr"></b>. Look in your inbox and in Spam. The code works for 10 minutes.</span></p>
+      <label class="t" for="code"><span lang="gu">૬ આંકડાનો કોડ</span><span lang="en">6-digit code</span></label>
+      <input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" autocorrect="off" spellcheck="false" required>
+      <button class="btn t" type="submit"><span lang="gu">ખોલો</span><span lang="en">Open</span></button>
+      <button class="link t" id="newCode" type="button"><span lang="gu">બીજો કોડ મગાવો</span><span lang="en">Ask for another code</span></button>
+      <p class="t small"><span lang="gu">થોડી મિનિટમાં કોડ ન આવે તો Spam જુઓ, ઇમેઇલ બરાબર લખ્યું છે કે નહીં તે તપાસો, અથવા બીજો કોડ મગાવો.</span><span lang="en">No code after a few minutes? Check Spam, make sure the address is spelt right, or ask for another code.</span></p>
+    </form>
+    <button class="link t" id="codeBack" type="button"><span lang="gu">પાછા જાઓ</span><span lang="en">Back</span></button>
+  </section>
+
+  <!-- NOT ON THE LIST -->
+  <section class="screen" id="s-denied" hidden>
+    <p class="t center lead"><span lang="gu">આ ઇમેઇલ કેલેન્ડરની યાદીમાં નથી.</span><span lang="en">This email is not on the calendar's list.</span></p>
+    <p class="who" id="deniedEmail" hidden></p>
+    <button class="btn t" id="ask" type="button"><span lang="gu">પરવાનગી માગો</span><span lang="en">Ask for access</span></button>
+    <p class="t center small" id="askNote" hidden><span lang="gu">પરવાનગી માગવા માટે એક વાર Google થી સાઇન ઇન કરવું પડશે. Google થી સાઇન ઇન ન થઈ શકે તો "ઇમેઇલ પર કોડ મેળવો" વાપરો: ત્યાંથી પણ પરવાનગી મગાય છે.</span><span lang="en">You will be asked to sign in with Google once to send your request. If you cannot sign in with Google, use "Get a code by email": you can ask for access there too.</span></p>
+    <button class="btn ghost t" id="otherAccount" type="button"><span lang="gu">બીજું એકાઉન્ટ વાપરો</span><span lang="en">Use a different account</span></button>
+  </section>
+
+  <!-- REQUEST SENT -->
+  <section class="screen" id="s-sent" hidden>
+    <p class="t center lead"><span lang="gu">તમારી વિનંતી મોકલાઈ ગઈ છે.</span><span lang="en">Your request has been sent.</span></p>
+    <p class="who" id="sentEmail" hidden></p>
+    <p class="msg t" id="sentMsg" role="alert" hidden></p>
+    <p class="t center"><span lang="gu">મંજૂરી મળ્યા પછી આ જ લિંક ફરી ખોલજો.</span><span lang="en">Once it is approved, open this same link again.</span></p>
+    <button class="btn ghost t" id="recheck" type="button"><span lang="gu">ફરી તપાસો</span><span lang="en">Check again</span></button>
+  </section>
+
+  <!-- COULD NOT GET AN ANSWER (shown only after the automatic retries have run out). Two wordings:
+       the gatekeeper said "busy" (many people opening at once - their internet is fine), or nothing
+       came back at all. -->
+  <section class="screen" id="s-error" hidden>
+    <p class="t center lead" id="errBusy" role="alert" hidden><span lang="gu">અત્યારે ઘણા લોકો કેલેન્ડર ખોલી રહ્યા છે. થોડી વાર પછી ફરી પ્રયત્ન કરો.</span><span lang="en">Many people are opening the calendar right now. Please try again in a moment.</span></p>
+    <p class="t center lead" id="errNet" role="alert" hidden><span lang="gu">અત્યારે જોડાણ થઈ શકતું નથી. ઇન્ટરનેટ તપાસો અને ફરી પ્રયત્ન કરો.</span><span lang="en">Could not connect just now. Check your internet and try again.</span></p>
+    <button class="btn t" id="retry" type="button"><span lang="gu">ફરી પ્રયત્ન કરો</span><span lang="en">Try again</span></button>
+    <button class="btn ghost t" id="errorBack" type="button"><span lang="gu">પાછા જાઓ</span><span lang="en">Back</span></button>
+  </section>
+
+  <!-- CANNOT CONTINUE AT ALL (very old browser, or the page has not been wired up yet) -->
+  <section class="screen" id="s-stop" hidden>
+    <p class="t center lead" id="stopMsg" role="alert"></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var CONFIG = { SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyUbuVsigDDXvH5Joxz94mvFao5t7HtyM_BlchRUCsz6UBo7AyEYUgx3w8_xWHvG0wG/exec', CLIENT_ID: '1041056963130-6po8o82ov1hr43vah80369t6c81oicm2.apps.googleusercontent.com' };
+
+  // ---------- fixed names and timings ----------
+  var SESSION_KEY = 'humayun.session';       // the remembered sign-in. The calendar's "Sign out" button removes exactly this key.
+  var SIGNED_IN_KEY = 'humayun.signedin';    // "this phone once held a session" - how we notice that someone signed out (see start()).
+  var GOOGLE_SCRIPT = 'https://accounts.google.com/gsi/client';
+  var GOOGLE_WAIT = 6000;                    // after this long without a Google button, show the "open in Chrome" hint
+  var RETRY_DELAYS = [1500, 3000, 6000];     // automatic retries when the gatekeeper is busy or unreachable (each is jittered +-30%)
+  var REQUEST_TIMEOUT = 15000;               // Apps Script can be slow to wake up; give up on one attempt after this
+  var EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // In-app browsers (Facebook, Instagram, Android WebView...) load Google's script but Google
+  // refuses to sign in inside them, so the 6-second check alone would never fire there.
+  var EMBEDDED = /; wv\)|FBAN|FBAV|FB_IAB|Instagram|Line\/|MicroMessenger/i.test(navigator.userAgent || '');
+
+  // Short messages that are filled in by the script. Same rule as the page: always both languages.
+  var MSG = {
+    bad_token:    { gu: 'સાઇન ઇન થઈ શક્યું નથી. કૃપા કરી ફરી સાઇન ઇન કરો.', en: 'Sign-in did not go through. Please sign in again.' },
+    signin_again: { gu: 'કૃપા કરી ફરી સાઇન ઇન કરો.', en: 'Please sign in again.' },
+    signed_out:   { gu: 'તમે સાઇન આઉટ થયા છો.', en: 'You have signed out.' },
+    ask_signin:   { gu: 'પરવાનગી માગવા માટે Google થી સાઇન ઇન કરો.', en: 'Sign in with Google to ask for access.' },
+    bad_email:    { gu: 'ઇમેઇલ સરનામું પૂરું અને બરાબર લખો.', en: 'Please type the full email address.' },
+    need_digits:  { gu: 'કોડના ૬ આંકડા લખો.', en: 'Type all 6 digits of the code.' },
+    bad_code:     { gu: 'કોડ ખોટો છે અથવા તેનો સમય પૂરો થયો છે. ફરી જુઓ, અથવા બીજો કોડ મગાવો.', en: 'That code is wrong or has run out. Check it, or ask for another code.' },
+    rate_limited: { gu: 'આ ઇમેઇલ પર હમણાં જ કોડ મોકલ્યા છે. ઇમેઇલ જુઓ, અથવા ૧૫ મિનિટ પછી ફરી પ્રયત્ન કરો.', en: 'Codes were sent to this email a short while ago. Check your email, or try again after 15 minutes.' },
+    old_browser:  { gu: 'આ બ્રાઉઝરમાં કેલેન્ડર ખૂલી શકતું નથી. કૃપા કરી લિંક Chrome અથવા Safari માં ખોલો.', en: 'This browser cannot open the calendar. Please open the link in Chrome or Safari.' },
+    not_yet:      { gu: 'હજી મંજૂરી મળી નથી. થોડા સમય પછી ફરી જુઓ.', en: 'Not approved yet. Please look again a little later.' },
+    by_code:      { gu: 'મંજૂરી મળ્યા પછી ફરી ઇમેઇલ પર કોડ મગાવો; તે કોડથી કેલેન્ડર ખૂલશે.', en: 'Once you are approved, ask for a code by email again; that code will open the calendar.' },
+    try_again:    { gu: 'કંઈક બરાબર ન થયું. કૃપા કરી ફરી પ્રયત્ન કરો.', en: 'Something did not work. Please try again.' },
+    not_ready:    { gu: 'આ પેજ હજી તૈયાર થઈ રહ્યું છે. થોડા સમય પછી ફરી જુઓ.', en: 'This page is still being set up. Please look again a little later.' }
+  };
+
+  // ---------- state (all of it lives only in this page view) ----------
+  var root = document.documentElement;
+  var lang = 'gu';
+  var current = 'loading';       // which screen is showing
+  var credential = null;        // Google's proof of identity. Kept in memory only, never stored on the phone.
+  var codeEmail = '';           // the address the email code was asked for
+  var retryAction = null;       // what the "Try again" button repeats
+  var busy = false;             // a request to the gatekeeper is in flight
+  var finished = false;         // true once the calendar has replaced this page; late timers must then do nothing
+  var googleState = 'idle';     // idle -> loading -> ready | failed
+  var hintTimer = 0;
+  var autoSignIn = true;        // may Google sign a returning member in without a tap?
+  var prompted = false;         // ...but offer that at most once per page view, or a refusal could loop
+  var askAfterSignIn = false;   // the visitor pressed "Ask for access" before we had a Google identity
+  var requestedFor = '';        // the email whose access request was sent in this page view
+  var requestedByCode = false;  // ...and whether it went by the email route (then "Check again" means: get a code)
+
+  function $(id) { return document.getElementById(id); }
+
+  // localStorage can be switched off (private browsing, strict settings). The page must still work
+  // then - the visitor simply signs in again next time.
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    remove: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+  function rememberSession(session) {
+    if (typeof session !== 'string' || !session) return;
+    store.set(SESSION_KEY, session); store.set(SIGNED_IN_KEY, '1');
+  }
+  function forgetSession() { store.remove(SESSION_KEY); store.remove(SIGNED_IN_KEY); }
+
+  // ---------- screens and text ----------
+  function show(name) {
+    var all = document.querySelectorAll('.screen');
+    for (var i = 0; i < all.length; i++) all[i].hidden = (all[i].id !== 's-' + name);
+    current = name;
+    if (name !== 'loading') $('retryNote').hidden = true;
+  }
+  function setMsg(el, key) {
+    el.textContent = '';
+    if (!key || !MSG[key]) { el.hidden = true; return; }
+    ['gu', 'en'].forEach(function (l) {
+      var s = document.createElement('span');
+      s.lang = l; s.textContent = MSG[key][l];
+      el.appendChild(s);
+    });
+    el.hidden = false;
+  }
+  function setEmail(el, email) { el.textContent = email || ''; el.hidden = !email; }
+  function stop(key) { setMsg($('stopMsg'), key); show('stop'); }
+
+  // The toggle changes the language for this visit only. It is not remembered: index.html (the main
+  // address) and en.html open in English and gu.html in Gujarati, and each must open the way its link promises.
+  function setLang(next) {
+    lang = (next === 'en') ? 'en' : 'gu';
+    root.setAttribute('data-lang', lang); root.lang = lang;
+    if (current === 'signin') drawGoogleButton();     // Google's button has its own wording; redraw it in the new language
+  }
+
+  // ---------- talking to the gatekeeper ----------
+  // One attempt. Sent as text/plain so the browser does not first send a separate "may I?" request,
+  // which an Apps Script web app cannot answer.
+  function post(request) {
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, REQUEST_TIMEOUT) : 0;
+    var done = function () { clearTimeout(timer); };
+    return fetch(CONFIG.SCRIPT_URL, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(request),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      if (!res.ok) throw new Error('http ' + res.status);
+      return res.json();                       // an Apps Script crash page is HTML, so this throws and we retry
+    }).then(function (data) {
+      done();
+      if (!data || typeof data !== 'object') throw new Error('unexpected answer');
+      return data;
+    }, function (err) { done(); throw err; });
+  }
+
+  // Several attempts. "busy" (the sheet was locked), "error" and plain network failures usually pass
+  // within seconds, so they are retried quietly before the visitor is asked to do anything.
+  // The waits are jittered: after a WhatsApp broadcast hundreds of phones open the link in the same
+  // minute, and if they all retried at the same instants they would keep colliding on the lock.
+  // The error handed to the caller carries the LAST reason, so the right words can be shown.
+  function call(request) {
+    return new Promise(function (resolve, reject) {
+      var tries = 0, lastReason = 'network';
+      function attempt() {
+        if (finished) return;
+        post(request).then(function (data) {
+          if (data.ok !== true && (data.reason === 'busy' || data.reason === 'error')) { lastReason = data.reason; again(); return; }
+          resolve(data);
+        }, function () { lastReason = 'network'; again(); });
+      }
+      function again() {
+        if (tries >= RETRY_DELAYS.length) {
+          var err = new Error('gatekeeper unreachable: ' + lastReason);
+          err.reason = lastReason;
+          reject(err);
+          return;
+        }
+        if (current === 'loading') $('retryNote').hidden = false;
+        var delay = RETRY_DELAYS[tries++];
+        setTimeout(attempt, Math.round(delay * (0.7 + Math.random() * 0.6)));
+      }
+      attempt();
+    });
+  }
+
+  // Every action goes through here: loading screen while we wait, the error screen (with a
+  // working "Try again") if the gatekeeper could not be reached.
+  function run(request, onAnswer, retry) {
+    retryAction = retry; busy = true;
+    show('loading');
+    call(request).then(function (data) {
+      busy = false;
+      if (!finished) onAnswer(data);
+    }).catch(function (err) {
+      busy = false;
+      if (!finished) showError(err && err.reason === 'busy');
+    });
+  }
+
+  // "busy" means the gatekeeper answered but was serving others; blaming the visitor's internet
+  // would send them off to fix the wrong thing.
+  function showError(wasBusy) {
+    $('errBusy').hidden = !wasBusy;
+    $('errNet').hidden = !!wasBusy;
+    show('error');
+  }
+
+  // ---------- showing the calendar ----------
+  // The gatekeeper sends a complete page; it takes the place of this one. Replacing the document is
+  // only honoured once this page has finished loading - earlier, the browser APPENDS the calendar
+  // under the sign-in box instead. So wait for the load event first.
+  function reveal(html) {
+    if (document.readyState !== 'complete') {
+      window.addEventListener('load', function () { setTimeout(function () { reveal(html); }, 0); }, { once: true });
+      return;
+    }
+    finished = true;                           // timers set by this page outlive the swap; this makes them harmless
+    clearTimeout(hintTimer);
+    try { window.google.accounts.id.cancel(); } catch (e) {}
+    document.open(); document.write(html); document.close();
+  }
+  function whenLoaded(fn) {
+    if (document.readyState === 'complete') fn(); else window.addEventListener('load', fn);
+  }
+
+  // ---------- the five things a visitor can do ----------
+  function openRemembered() {
+    var session = store.get(SESSION_KEY);
+    if (!session) { showSignIn(); return; }
+    run({ action: 'open', session: session, lang: lang }, function (d) {
+      if (d.ok === true && typeof d.html === 'string') { reveal(d.html); return; }
+      if (d.reason === 'not_allowed') {
+        // Taken off the list. The session is kept: if the owner adds the person back, the same
+        // phone opens the calendar again without signing in.
+        credential = null;
+        showDenied(d.email || emailInSession(session));
+        return;
+      }
+      if (d.reason === 'expired' || d.reason === 'bad_session') { forgetSession(); showSignIn('signin_again'); return; }
+      showSignIn('signin_again');                // an answer this page does not know: signing in afresh always works
+    }, openRemembered);
+  }
+
+  function signInWithGoogle(token) {
+    credential = token;
+    run({ action: 'google', credential: token, lang: lang }, function (d) {
+      if (d.ok === true && typeof d.html === 'string') { askAfterSignIn = false; rememberSession(d.session); reveal(d.html); return; }
+      if (d.reason === 'not_allowed') {
+        $('deniedEmail').textContent = d.email || '';
+        if (askAfterSignIn) { askAfterSignIn = false; askForAccess(d.email); return; }   // they already pressed "Ask for access"
+        if (requestedFor && requestedFor === d.email) { setMsg($('sentMsg'), 'not_yet'); show('sent'); return; }   // "Check again", still waiting
+        showDenied(d.email);
+        return;
+      }
+      if (d.reason === 'bad_token') {
+        // Google's proof lasts about an hour. If it ran out while the "request sent" screen was left
+        // open, the person did nothing wrong, so ask them plainly to sign in again.
+        credential = null; autoSignIn = false;
+        showSignIn(requestedFor ? 'signin_again' : 'bad_token');
+        return;
+      }
+      showSignIn('try_again');
+    }, function () { signInWithGoogle(token); });
+  }
+
+  function askForAccess(email) {
+    if (!credential) {                         // reached "not on the list" from a remembered session: no Google identity yet
+      askAfterSignIn = true;
+      showSignIn('ask_signin');
+      return;
+    }
+    run({ action: 'request_access', credential: credential }, function (d) {
+      if (d.ok === true) {
+        requestedFor = email || $('deniedEmail').textContent; requestedByCode = false;
+        setEmail($('sentEmail'), requestedFor); setMsg($('sentMsg'), null);
+        show('sent');
+        return;
+      }
+      if (d.reason === 'bad_token') {          // Google's proof lasts about an hour; ask for a fresh one and carry on
+        credential = null; askAfterSignIn = true; autoSignIn = false;
+        showSignIn('ask_signin');
+        return;
+      }
+      showError(false);
+    }, function () { askForAccess(email); });
+  }
+
+  function requestCode(email) {
+    codeEmail = email;
+    var name = ($('name').value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    // The gatekeeper answers the same whether or not the address is on the list. A code goes out
+    // either way; a correct one from someone not on the list becomes a request for access.
+    run({ action: 'code_request', email: email, name: name }, function (d) {
+      if (d.ok === true) { showCodeStep(); return; }
+      if (d.reason === 'rate_limited') { showEmailStep('rate_limited', true); return; }
+      if (d.reason === 'bad_request') { showEmailStep('bad_email'); return; }
+      showEmailStep('try_again');
+    }, function () { requestCode(email); });
+  }
+
+  function verifyCode(code) {
+    run({ action: 'code_verify', email: codeEmail, code: code, lang: lang }, function (d) {
+      if (d.ok === true && typeof d.html === 'string') { rememberSession(d.session); reveal(d.html); return; }
+      if (d.reason === 'requested') {           // the code was right, but the address is not on the list: a request was sent
+        requestedFor = codeEmail; requestedByCode = true;
+        setEmail($('sentEmail'), codeEmail); setMsg($('sentMsg'), 'by_code');
+        show('sent');
+        return;
+      }
+      if (d.reason === 'bad_code' || d.reason === 'bad_request') { showCodeStep('bad_code'); return; }
+      showCodeStep('try_again');
+    }, function () { verifyCode(code); });
+  }
+
+  // ---------- individual screens ----------
+  function showSignIn(msgKey) {
+    setMsg($('signinMsg'), msgKey || null);
+    show('signin');
+    if (EMBEDDED) showHint();
+    startGoogle();
+  }
+
+  function showDenied(email) {
+    setEmail($('deniedEmail'), email);
+    $('askNote').hidden = !!credential;
+    show('denied');
+  }
+
+  function showEmailStep(msgKey, offerHaveCode) {
+    $('emailForm').hidden = false; $('codeForm').hidden = true;
+    $('haveCode').hidden = !offerHaveCode;
+    setMsg($('codeMsg'), msgKey || null);
+    show('code');
+    $('email').focus();
+  }
+
+  function showCodeStep(msgKey) {
+    var spots = document.querySelectorAll('#codeForm .addr');
+    for (var i = 0; i < spots.length; i++) spots[i].textContent = codeEmail;
+    $('emailForm').hidden = true; $('codeForm').hidden = false;
+    $('code').value = '';
+    setMsg($('codeMsg'), msgKey || null);
+    show('code');
+    $('code').focus();
+  }
+
+  // Keep only digits. Gujarati and Devanagari keyboards type their own numerals, so turn those into 0-9.
+  function sixDigits(text) {
+    return String(text)
+      .replace(/[૦-૯]/g, function (c) { return String(c.charCodeAt(0) - 0x0AE6); })
+      .replace(/[०-९]/g, function (c) { return String(c.charCodeAt(0) - 0x0966); })
+      .replace(/[^0-9]/g, '').slice(0, 6);
+  }
+
+  // The email inside a remembered session, used ONLY to tell the visitor which address was
+  // refused. It is never trusted for anything: the gatekeeper checks the session's signature.
+  function emailInSession(session) {
+    try {
+      var part = String(session).split('.')[0].replace(/-/g, '+').replace(/_/g, '/');
+      while (part.length % 4) part += '=';
+      var bytes = atob(part), esc = '';
+      for (var i = 0; i < bytes.length; i++) esc += '%' + ('0' + bytes.charCodeAt(i).toString(16)).slice(-2);
+      var info = JSON.parse(decodeURIComponent(esc));
+      return (info && typeof info.r === 'string') ? info.r : '';
+    } catch (e) { return ''; }
+  }
+
+  // ---------- Google sign-in ----------
+  // Google's script is added only when the sign-in screen is needed, and only after this page has
+  // finished loading. A script still being fetched holds back the page's "load" event, and the
+  // calendar cannot be shown before that event (see reveal). If Google is blocked or slow, a member
+  // with a remembered session or an email code must not be kept waiting for it.
+  function startGoogle() {
+    if (googleState === 'ready') { $('gwait').hidden = true; drawGoogleButton(); offerOneTap(); return; }
+    if (googleState === 'loading') return;
+    googleState = 'loading';                   // also the way back in after 'failed': opening the sign-in screen again tries once more
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(function () { if (!finished && googleState !== 'ready') showHint(); }, GOOGLE_WAIT);
+    whenLoaded(function () {
+      var s = document.createElement('script');
+      s.src = GOOGLE_SCRIPT; s.async = true;
+      s.onload = googleLoaded;
+      s.onerror = function () { googleState = 'failed'; if (!finished) showHint(); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function googleLoaded() {
+    if (finished) return;
+    if (!(window.google && google.accounts && google.accounts.id)) { googleState = 'failed'; showHint(); return; }
+    google.accounts.id.initialize({
+      client_id: CONFIG.CLIENT_ID,
+      callback: function (answer) {
+        if (finished || busy || !answer || !answer.credential) return;
+        signInWithGoogle(answer.credential);
+      },
+      ux_mode: 'popup',
+      auto_select: true,                       // a returning member with one Google account is signed in without a tap
+      itp_support: true,
+      cancel_on_tap_outside: false
+    });
+    googleState = 'ready';
+    clearTimeout(hintTimer);
+    $('gwait').hidden = true;
+    if (!EMBEDDED) $('ghint').hidden = true;   // the script arrived late, after the hint had been shown
+    if (!autoSignIn) { try { google.accounts.id.disableAutoSelect(); } catch (e) {} }
+    if (current === 'signin') { drawGoogleButton(); offerOneTap(); }
+  }
+
+  function drawGoogleButton() {
+    if (googleState !== 'ready') return;
+    var box = $('gbtn');
+    var width = Math.floor(box.getBoundingClientRect().width) || 280;
+    var dark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    box.textContent = '';
+    try {
+      google.accounts.id.renderButton(box, {
+        type: 'standard', size: 'large', shape: 'rectangular', text: 'signin_with', logo_alignment: 'left',
+        theme: dark ? 'filled_blue' : 'outline',
+        width: Math.max(200, Math.min(400, width)),   // Google accepts 200 to 400
+        locale: lang
+      });
+    } catch (e) { showHint(); }
+  }
+
+  // Google's own small "continue as ..." prompt. Not offered straight after a sign-out or after
+  // "use a different account" - otherwise the visitor would be signed straight back in.
+  function offerOneTap() {
+    if (!autoSignIn || prompted || busy) return;
+    prompted = true;
+    try { google.accounts.id.prompt(); } catch (e) {}
+  }
+
+  function showHint() { $('gwait').hidden = true; $('ghint').hidden = false; }
+
+  // ---------- buttons ----------
+  $('langBtn').addEventListener('click', function () { setLang(lang === 'gu' ? 'en' : 'gu'); });
+
+  $('toCode').addEventListener('click', function () {
+    try { window.google.accounts.id.cancel(); } catch (e) {}
+    showEmailStep();
+  });
+  $('codeBack').addEventListener('click', function () {
+    if (!$('codeForm').hidden) showEmailStep(); else showSignIn();
+  });
+  $('newCode').addEventListener('click', function () { showEmailStep(); });
+  $('haveCode').addEventListener('click', function () {
+    var email = $('email').value.trim();
+    if (!EMAIL_SHAPE.test(email)) { setMsg($('codeMsg'), 'bad_email'); $('email').focus(); return; }
+    codeEmail = email; showCodeStep();
+  });
+  $('emailForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var email = $('email').value.trim();
+    if (!EMAIL_SHAPE.test(email)) { setMsg($('codeMsg'), 'bad_email'); $('email').focus(); return; }
+    requestCode(email);
+  });
+  $('code').addEventListener('input', function () {
+    var clean = sixDigits(this.value);
+    if (clean !== this.value) this.value = clean;
+  });
+  $('codeForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var code = sixDigits($('code').value);
+    if (code.length !== 6) { setMsg($('codeMsg'), 'need_digits'); $('code').focus(); return; }
+    verifyCode(code);
+  });
+
+  $('ask').addEventListener('click', function () { askForAccess($('deniedEmail').textContent); });
+  $('otherAccount').addEventListener('click', function () {
+    forgetSession(); credential = null; askAfterSignIn = false; autoSignIn = false;
+    try { window.google.accounts.id.disableAutoSelect(); } catch (e) {}
+    showSignIn();
+  });
+  $('recheck').addEventListener('click', function () {
+    if (requestedByCode) { $('email').value = requestedFor; showEmailStep(); return; }
+    if (credential) signInWithGoogle(credential); else showSignIn('signin_again');
+  });
+  $('retry').addEventListener('click', function () {
+    if (retryAction) retryAction(); else location.reload();
+  });
+  // A way out of the error screen other than repeating the same request: back to the choice
+  // between Google and the email code. The remembered session (if any) is kept.
+  $('errorBack').addEventListener('click', function () { retryAction = null; showSignIn(); });
+
+  $('copyLink').addEventListener('click', function () {
+    var url = location.href;
+    var ok = function () { $('copied').hidden = false; };
+    var oldWay = function () {                 // in-app browsers often lack the modern clipboard
+      var box = document.createElement('textarea');
+      box.value = url; box.setAttribute('readonly', '');
+      box.style.position = 'fixed'; box.style.opacity = '0';
+      document.body.appendChild(box); box.select();
+      try { if (document.execCommand('copy')) ok(); } catch (e) {}
+      document.body.removeChild(box);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, oldWay);
+    else oldWay();
+  });
+
+  // ---------- start ----------
+  function start() {
+    // Language: this page's own default (index.html and en.html are English, gu.html is Gujarati -
+    // the only difference between the files). The toggle can change it for this visit.
+    setLang(root.getAttribute('data-lang'));
+
+    if (!window.fetch || !window.Promise) { stop('old_browser'); return; }
+    if (/^PASTE_/.test(CONFIG.SCRIPT_URL) || /^PASTE_/.test(CONFIG.CLIENT_ID)) { stop('not_ready'); return; }
+
+    if (store.get(SESSION_KEY)) { openRemembered(); return; }   // the loading screen is already showing
+
+    // No session, but this phone had one: the visitor pressed "Sign out" inside the calendar.
+    // Respect that - do not let Google sign them straight back in.
+    var signedOut = !!store.get(SIGNED_IN_KEY);
+    if (signedOut) { store.remove(SIGNED_IN_KEY); autoSignIn = false; }
+    showSignIn(signedOut ? 'signed_out' : null);
+  }
+  start();
+})();
+</script>
+</body>
+</html>
