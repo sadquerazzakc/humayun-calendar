@@ -653,6 +653,8 @@
     if (/^PASTE_/.test(CONFIG.SCRIPT_URL) || /^PASTE_/.test(CONFIG.CLIENT_ID)) { stop('not_ready'); return; }
 
     store.set('humayun.gatekeeper', CONFIG.SCRIPT_URL);   // the calendar page's "Add to phone calendar" button needs it
+    if (/[?&]beta=1(&|$)/.test(location.search)) store.set('humayun.beta', '1');   // shows features still being tried out
+    if (/[?&]beta=0(&|$)/.test(location.search)) store.remove('humayun.beta');
     if (store.get(SESSION_KEY)) { openRemembered(); return; }   // the loading screen is already showing
 
     // No session, but this phone had one: the visitor pressed "Sign out" inside the calendar.
