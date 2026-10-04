@@ -32,52 +32,53 @@
   [hidden]{display:none!important}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--ground);color:var(--ink);
-       font:17px/1.45 "Hind Vadodara","Noto Sans Gujarati","Shruti",system-ui,sans-serif;padding:20px}
+       font:19px/1.45 "Hind Vadodara","Noto Sans Gujarati","Shruti",system-ui,sans-serif;padding:20px}
   main{width:100%;max-width:420px;background:var(--paper);border:2px solid var(--ink);padding:10px 26px 24px}
   @media (max-width:380px){body{padding:12px}main{padding:8px 18px 20px}}
-  h1{margin:0;color:var(--red);font-size:28px;line-height:1.15;text-align:center}
-  .sub{margin:4px 0 20px;text-align:center;color:var(--soft);font-size:15px}
+  h1{margin:0;color:var(--red);font-size:30px;line-height:1.15;text-align:center}
+  h1>span{display:none}
+  html[data-lang="gu"] h1>span[lang="gu"],html[data-lang="en"] h1>span[lang="en"]{display:block}
+  .sub{margin:4px 0 22px;text-align:center;color:var(--soft);font-size:15px}
   p{margin:0 0 14px}
   a{color:inherit}
 
-  /* Every piece of text is written in both languages. The chosen language is shown first and
-     full size; the other one sits under it, smaller. The toggle only swaps which is which. */
-  .t{display:flex;flex-direction:column;gap:2px}
-  .t>span{order:2;font-size:.84em;color:var(--soft)}
-  html[data-lang="gu"] .t>span[lang="gu"],html[data-lang="en"] .t>span[lang="en"]{order:1;font-size:1em;color:inherit}
+  /* Every piece of text is written in both languages, but only the chosen language is shown:
+     two languages on every line made the page a wall of text for older members. The button at
+     the top swaps languages. */
+  .t>span{display:none}
+  html[data-lang="gu"] .t>span[lang="gu"],html[data-lang="en"] .t>span[lang="en"]{display:block}
   .center{text-align:center}
-  .small{font-size:14.5px;color:var(--soft)}
-  .lead{font-size:18px}
+  .small{font-size:16px;color:var(--soft)}
+  .lead{font-size:22px;font-weight:700;margin-bottom:18px}
+  .steps{font-size:15px;color:var(--soft);text-align:center;margin:0 0 6px;letter-spacing:.02em}
 
   .langrow{display:flex;justify-content:flex-end;margin:0 -14px 2px 0}
-  #langBtn{font:inherit;font-size:15px;font-weight:600;min-height:40px;padding:6px 12px;border:1px solid var(--rule);border-radius:4px;background:transparent;color:var(--soft);cursor:pointer}
+  #langBtn{font:inherit;font-size:17px;font-weight:600;min-height:44px;padding:6px 14px;border:1px solid var(--rule);border-radius:4px;background:transparent;color:var(--soft);cursor:pointer}
   html[data-lang="gu"] #langBtn .to-gu,html[data-lang="en"] #langBtn .to-en{display:none}
 
-  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;font:inherit;font-weight:700;padding:9px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--ink);color:var(--paper);cursor:pointer;margin:0 0 12px;text-align:center}
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:60px;font:inherit;font-size:20px;font-weight:700;padding:9px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--ink);color:var(--paper);cursor:pointer;margin:0 0 12px;text-align:center}
   .btn>span{width:100%}
-  .btn.t>span{color:inherit;opacity:.82;font-weight:600}
-  html[data-lang="gu"] .btn.t>span[lang="gu"],html[data-lang="en"] .btn.t>span[lang="en"]{opacity:1;font-weight:700}
-  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
-  .link{display:flex;width:100%;min-height:46px;justify-content:center;font:inherit;font-size:15px;padding:8px;border:0;background:transparent;color:var(--ink);text-decoration:underline;cursor:pointer;text-align:center}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule);min-height:52px;font-size:18px;font-weight:600}
+  .link{display:flex;width:100%;min-height:48px;justify-content:center;font:inherit;font-size:17px;padding:8px;border:0;background:transparent;color:var(--ink);text-decoration:underline;cursor:pointer;text-align:center}
   a:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
-  label{display:flex;font-size:15px;margin-bottom:6px}
-  input[type=email],input[type=text]{width:100%;font:inherit;padding:12px;border:2px solid var(--rule);border-radius:4px;background:var(--ground);color:var(--ink);margin:0 0 14px}
-  #code{font-size:28px;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums;padding:10px 4px 10px 14px}
+  label{display:flex;font-size:17px;font-weight:600;margin-bottom:6px}
+  input[type=email],input[type=text]{width:100%;font:inherit;font-size:20px;padding:13px;border:2px solid var(--rule);border-radius:4px;background:var(--ground);color:var(--ink);margin:0 0 14px}
+  #code{font-size:34px;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums;padding:10px 4px 10px 14px}
 
-  .msg{color:var(--red);font-size:15.5px;text-align:center;margin:0 0 14px}
-  .msg.t>span{color:inherit}
+  .msg{color:var(--red);font-size:17px;font-weight:600;text-align:center;margin:0 0 14px}
   .who{font-weight:700;text-align:center;overflow-wrap:anywhere;word-break:break-word;padding:10px 12px;border:1px solid var(--rule);border-radius:4px;background:var(--ground)}
   .addr{overflow-wrap:anywhere;word-break:break-word}
 
   /* Google draws its own button inside this box; the height is reserved so nothing jumps. */
-  .gbtn{min-height:44px;display:flex;justify-content:center;margin:0 0 12px}
+  .gbtn{min-height:44px;display:flex;justify-content:center;margin:0 0 14px}
   .hint{border:1px solid var(--rule);border-radius:4px;background:var(--ground);padding:12px 12px 2px;margin:0 0 14px;font-size:15.5px}
   .hint .btn{min-height:46px;font-size:15px}
-  .or{display:flex;align-items:center;gap:10px;color:var(--soft);font-size:14px;margin:6px 0 14px}
+  .or{display:flex;align-items:center;gap:10px;color:var(--soft);font-size:15px;margin:10px 0 16px}
+  .or>span>span{display:none}
+  html[data-lang="gu"] .or>span>span[lang="gu"],html[data-lang="en"] .or>span>span[lang="en"]{display:inline}
   .or::before,.or::after{content:"";flex:1;border-top:1px solid var(--rule)}
-  .notice{font-size:13.5px;color:var(--soft);text-align:center;margin:10px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
-  .notice.t>span{font-size:1em;color:inherit}
+  .notice{font-size:14px;color:var(--soft);text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
 
   .spin{width:34px;height:34px;margin:10px auto 16px;border:3px solid var(--rule);border-top-color:var(--red);border-radius:50%;animation:spin .9s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -89,8 +90,8 @@
   <div class="langrow">
     <button id="langBtn" type="button" aria-label="ભાષા બદલો · Change language"><span class="to-en" lang="en">English</span><span class="to-gu" lang="gu">ગુજરાતી</span></button>
   </div>
-  <h1>હુમાયૂન કેલેન્ડર</h1>
-  <p class="sub">Humayun Calendar · Atba-e-Qayem</p>
+  <h1><span lang="gu">હુમાયૂન કેલેન્ડર</span><span lang="en">Humayun Calendar</span></h1>
+  <p class="sub">Atba-e-Qayem</p>
 
   <!-- Without JavaScript nothing below can work; say so instead of spinning for ever. -->
   <noscript>
@@ -107,50 +108,50 @@
 
   <!-- SIGN IN -->
   <section class="screen" id="s-signin" hidden>
-    <p class="t center lead"><span lang="gu">કેલેન્ડર જોવા માટે તમારા Google એકાઉન્ટથી સાઇન ઇન કરો.</span><span lang="en">Sign in with your Google account to see the calendar.</span></p>
-    <p class="t center small"><span lang="gu">પહેલી વાર? સાઇન ઇન કરીને પરવાનગી માગો; મંજૂરી મળ્યા પછી કેલેન્ડર ખૂલશે.</span><span lang="en">First time here? Sign in and ask for access; the calendar opens once you are approved.</span></p>
+    <p class="t center lead"><span lang="gu">કેલેન્ડર ખોલવા માટે નીચેનું બટન દબાવો.</span><span lang="en">Press the button below to open the calendar.</span></p>
     <p class="msg t" id="signinMsg" role="alert" hidden></p>
     <div class="gbtn" id="gbtn"></div>
-    <p class="t center small" id="gwait"><span lang="gu">Google બટન આવી રહ્યું છે…</span><span lang="en">The Google button is loading…</span></p>
+    <p class="t center small" id="gwait"><span lang="gu">એક ક્ષણ…</span><span lang="en">One moment…</span></p>
     <div class="hint" id="ghint" hidden>
-      <p class="t"><span lang="gu">Google બટન દેખાતું નથી કે ચાલતું નથી? આ લિંક Chrome માં (iPhone પર Safari માં) ખોલો, અથવા નીચે ઇમેઇલ કોડ વાપરો.</span><span lang="en">Google button missing or not working? Open this link in Chrome (Safari on iPhone), or use the email code below.</span></p>
+      <p class="t"><span lang="gu">Google બટન દેખાતું નથી? નીચેનું "ઇમેઇલથી ખોલો" બટન વાપરો, અથવા આ લિંક Chrome માં ખોલો.</span><span lang="en">No Google button? Use "Open with my email" below, or open this link in Chrome.</span></p>
       <button class="btn ghost t" id="copyLink" type="button"><span lang="gu">લિંક કૉપિ કરો</span><span lang="en">Copy the link</span></button>
       <p class="t center small" id="copied" hidden><span lang="gu">લિંક કૉપિ થઈ ગઈ. હવે Chrome માં પેસ્ટ કરો.</span><span lang="en">Link copied. Now paste it in Chrome.</span></p>
     </div>
-    <div class="or"><span>અથવા · or</span></div>
-    <button class="btn ghost t" id="toCode" type="button"><span lang="gu">ઇમેઇલ પર કોડ મેળવો</span><span lang="en">Get a code by email</span></button>
-    <p class="t notice"><span lang="gu">મુલાકાતની નોંધ રખાય છે (ઇમેઇલ અને સમય). <a href="privacy.html">ગોપનીયતા</a></span><span lang="en">Visits are recorded (email and time). <a href="privacy.html">Privacy</a></span></p>
+    <div class="or"><span><span lang="gu">Google નથી?</span><span lang="en">No Google account?</span></span></div>
+    <button class="btn ghost t" id="toCode" type="button"><span lang="gu">ઇમેઇલથી ખોલો</span><span lang="en">Open with my email</span></button>
+    <p class="t notice"><span lang="gu"><a href="privacy.html">ગોપનીયતા</a></span><span lang="en"><a href="privacy.html">Privacy</a></span></p>
   </section>
 
   <!-- EMAIL CODE: first the address, then the six digits. -->
   <section class="screen" id="s-code" hidden>
     <p class="msg t" id="codeMsg" role="alert" hidden></p>
     <form id="emailForm" novalidate>
-      <label class="t" for="email"><span lang="gu">તમારું ઇમેઇલ સરનામું</span><span lang="en">Your email address</span></label>
+      <p class="t steps"><span lang="gu">પગલું ૧ / ૨</span><span lang="en">Step 1 of 2</span></p>
+      <label class="t" for="email"><span lang="gu">તમારું ઇમેઇલ</span><span lang="en">Your email</span></label>
       <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" required>
-      <label class="t" for="name"><span lang="gu">તમારું નામ (પહેલી વાર હો તો)</span><span lang="en">Your name (if this is your first time)</span></label>
+      <label class="t" for="name"><span lang="gu">તમારું નામ</span><span lang="en">Your name</span></label>
       <input id="name" name="name" type="text" autocomplete="name" autocapitalize="words" maxlength="80">
-      <p class="t small"><span lang="gu">આ ઇમેઇલ પર ૬ આંકડાનો કોડ આવશે. યાદીમાં ન હો તો કોડ લખવાથી પરવાનગી મગાશે.</span><span lang="en">A 6-digit code will be sent to this email. If you are not on the list yet, typing the code sends your request for access.</span></p>
-      <button class="btn t" type="submit"><span lang="gu">કોડ મોકલો</span><span lang="en">Send the code</span></button>
+      <p class="t small"><span lang="gu">અમે આ ઇમેઇલ પર ૬ આંકડાનો કોડ મોકલીશું.</span><span lang="en">We will send a 6-digit code to this email.</span></p>
+      <button class="btn t" type="submit"><span lang="gu">કોડ મોકલો</span><span lang="en">Send me the code</span></button>
       <button class="link t" id="haveCode" type="button" hidden><span lang="gu">મારી પાસે કોડ છે</span><span lang="en">I already have a code</span></button>
     </form>
     <form id="codeForm" novalidate hidden>
-      <p class="t"><span lang="gu"><b class="addr"></b> પર ૬ આંકડાનો કોડ મોકલ્યો છે. ઇનબોક્સ અને Spam બંને જુઓ. કોડ ૧૦ મિનિટ ચાલશે.</span><span lang="en">A 6-digit code has been sent to <b class="addr"></b>. Look in your inbox and in Spam. The code works for 10 minutes.</span></p>
+      <p class="t steps"><span lang="gu">પગલું ૨ / ૨</span><span lang="en">Step 2 of 2</span></p>
+      <p class="t"><span lang="gu">તમારા ઇમેઇલ <b class="addr"></b> માં કોડ આવ્યો છે. તે અહીં લખો.</span><span lang="en">Open your email <b class="addr"></b>. Type the code from it here.</span></p>
       <label class="t" for="code"><span lang="gu">૬ આંકડાનો કોડ</span><span lang="en">6-digit code</span></label>
       <input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" autocorrect="off" spellcheck="false" required>
       <button class="btn t" type="submit"><span lang="gu">ખોલો</span><span lang="en">Open</span></button>
-      <button class="link t" id="newCode" type="button"><span lang="gu">બીજો કોડ મગાવો</span><span lang="en">Ask for another code</span></button>
-      <p class="t small"><span lang="gu">થોડી મિનિટમાં કોડ ન આવે તો Spam જુઓ, ઇમેઇલ બરાબર લખ્યું છે કે નહીં તે તપાસો, અથવા બીજો કોડ મગાવો.</span><span lang="en">No code after a few minutes? Check Spam, make sure the address is spelt right, or ask for another code.</span></p>
+      <button class="link t" id="newCode" type="button"><span lang="gu">કોડ આવ્યો નથી? ફરી મોકલો</span><span lang="en">No code? Send it again</span></button>
     </form>
     <button class="link t" id="codeBack" type="button"><span lang="gu">પાછા જાઓ</span><span lang="en">Back</span></button>
   </section>
 
   <!-- NOT ON THE LIST -->
   <section class="screen" id="s-denied" hidden>
-    <p class="t center lead"><span lang="gu">આ ઇમેઇલ કેલેન્ડરની યાદીમાં નથી.</span><span lang="en">This email is not on the calendar's list.</span></p>
+    <p class="t center lead"><span lang="gu">આ ઇમેઇલ હજી યાદીમાં નથી.</span><span lang="en">This email is not on the list yet.</span></p>
     <p class="who" id="deniedEmail" hidden></p>
     <button class="btn t" id="ask" type="button"><span lang="gu">પરવાનગી માગો</span><span lang="en">Ask for access</span></button>
-    <p class="t center small" id="askNote" hidden><span lang="gu">પરવાનગી માગવા માટે એક વાર Google થી સાઇન ઇન કરવું પડશે. Google થી સાઇન ઇન ન થઈ શકે તો "ઇમેઇલ પર કોડ મેળવો" વાપરો: ત્યાંથી પણ પરવાનગી મગાય છે.</span><span lang="en">You will be asked to sign in with Google once to send your request. If you cannot sign in with Google, use "Get a code by email": you can ask for access there too.</span></p>
+    <p class="t center small" id="askNote" hidden><span lang="gu">પરવાનગી માગવા માટે એક વાર Google થી સાઇન ઇન કરવું પડશે.</span><span lang="en">You will be asked to sign in with Google once to send your request.</span></p>
     <button class="btn ghost t" id="otherAccount" type="button"><span lang="gu">બીજું એકાઉન્ટ વાપરો</span><span lang="en">Use a different account</span></button>
   </section>
 
@@ -159,7 +160,7 @@
     <p class="t center lead"><span lang="gu">તમારી વિનંતી મોકલાઈ ગઈ છે.</span><span lang="en">Your request has been sent.</span></p>
     <p class="who" id="sentEmail" hidden></p>
     <p class="msg t" id="sentMsg" role="alert" hidden></p>
-    <p class="t center"><span lang="gu">મંજૂરી મળ્યા પછી આ જ લિંક ફરી ખોલજો.</span><span lang="en">Once it is approved, open this same link again.</span></p>
+    <p class="t center"><span lang="gu">મંજૂરી મળે ત્યારે તમને ઇમેઇલ આવશે. પછી આ જ લિંક ફરી ખોલજો.</span><span lang="en">You will get an email when it is approved. Then open this same link again.</span></p>
     <button class="btn ghost t" id="recheck" type="button"><span lang="gu">ફરી તપાસો</span><span lang="en">Check again</span></button>
   </section>
 
@@ -202,14 +203,14 @@
     bad_token:    { gu: 'સાઇન ઇન થઈ શક્યું નથી. કૃપા કરી ફરી સાઇન ઇન કરો.', en: 'Sign-in did not go through. Please sign in again.' },
     signin_again: { gu: 'કૃપા કરી ફરી સાઇન ઇન કરો.', en: 'Please sign in again.' },
     signed_out:   { gu: 'તમે સાઇન આઉટ થયા છો.', en: 'You have signed out.' },
-    ask_signin:   { gu: 'પરવાનગી માગવા માટે Google થી સાઇન ઇન કરો.', en: 'Sign in with Google to ask for access.' },
+    ask_signin:   { gu: 'પરવાનગી માગવા માટે Google બટન દબાવો.', en: 'Press the Google button to ask for access.' },
     bad_email:    { gu: 'ઇમેઇલ સરનામું પૂરું અને બરાબર લખો.', en: 'Please type the full email address.' },
     need_digits:  { gu: 'કોડના ૬ આંકડા લખો.', en: 'Type all 6 digits of the code.' },
-    bad_code:     { gu: 'કોડ ખોટો છે અથવા તેનો સમય પૂરો થયો છે. ફરી જુઓ, અથવા બીજો કોડ મગાવો.', en: 'That code is wrong or has run out. Check it, or ask for another code.' },
-    rate_limited: { gu: 'આ ઇમેઇલ પર હમણાં જ કોડ મોકલ્યા છે. ઇમેઇલ જુઓ, અથવા ૧૫ મિનિટ પછી ફરી પ્રયત્ન કરો.', en: 'Codes were sent to this email a short while ago. Check your email, or try again after 15 minutes.' },
+    bad_code:     { gu: 'કોડ ખોટો છે અથવા જૂનો થઈ ગયો છે. ફરી જુઓ, અથવા નવો કોડ મગાવો.', en: 'That code is wrong or too old. Check it, or send a new one.' },
+    rate_limited: { gu: 'કોડ હમણાં જ મોકલ્યો છે. ઇમેઇલ જુઓ, અથવા ૧૫ મિનિટ પછી ફરી પ્રયત્ન કરો.', en: 'A code was sent a moment ago. Check your email, or try again in 15 minutes.' },
     old_browser:  { gu: 'આ બ્રાઉઝરમાં કેલેન્ડર ખૂલી શકતું નથી. કૃપા કરી લિંક Chrome અથવા Safari માં ખોલો.', en: 'This browser cannot open the calendar. Please open the link in Chrome or Safari.' },
     not_yet:      { gu: 'હજી મંજૂરી મળી નથી. થોડા સમય પછી ફરી જુઓ.', en: 'Not approved yet. Please look again a little later.' },
-    by_code:      { gu: 'મંજૂરી મળ્યા પછી ફરી ઇમેઇલ પર કોડ મગાવો; તે કોડથી કેલેન્ડર ખૂલશે.', en: 'Once you are approved, ask for a code by email again; that code will open the calendar.' },
+    by_code:      { gu: 'મંજૂરી મળ્યા પછી ફરી "ઇમેઇલથી ખોલો" દબાવો.', en: 'Once you are approved, press "Open with my email" again.' },
     try_again:    { gu: 'કંઈક બરાબર ન થયું. કૃપા કરી ફરી પ્રયત્ન કરો.', en: 'Something did not work. Please try again.' },
     not_ready:    { gu: 'આ પેજ હજી તૈયાર થઈ રહ્યું છે. થોડા સમય પછી ફરી જુઓ.', en: 'This page is still being set up. Please look again a little later.' }
   };
