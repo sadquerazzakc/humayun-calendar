@@ -26,8 +26,9 @@
   /* Same palette as the old password page, so members recognise it. The font list is the same too,
      but on purpose there is NO Google Fonts <link> here: before anyone has signed in, the only third
      party this page talks to is Google Identity. The calendar page itself loads the web font. */
-  :root{--ground:#f3efe7;--paper:#fff;--ink:#161412;--soft:#5c5650;--rule:#cfc8bc;--red:#d3261a;--focus:#1f5fbf}
-  @media (prefers-color-scheme:dark){:root{--ground:#171513;--paper:#221f1b;--ink:#efe9df;--soft:#b3aa9c;--rule:#4a433b;--red:#ff6f5f;--focus:#7fb0ff}}
+  /* Paper and ink: ivory page, ink text, gold accent; red only for error messages. */
+  :root{--ground:#F3EDE1;--paper:#FBF7EF;--ink:#1E1A15;--soft:#62594C;--rule:#D9CFBD;--gold:#7A5C17;--red:#b3261e;--focus:#7A5C17}
+  @media (prefers-color-scheme:dark){:root{--ground:#16130F;--paper:#1F1B16;--ink:#EFE6D6;--soft:#ADA392;--rule:#352E25;--gold:#E0BF6E;--red:#ff8a7a;--focus:#E0BF6E}}
   *{box-sizing:border-box}
   [hidden]{display:none!important}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -35,7 +36,7 @@
        font:19px/1.45 "Hind Vadodara","Noto Sans Gujarati","Shruti",system-ui,sans-serif;padding:20px}
   main{width:100%;max-width:420px;background:var(--paper);border:2px solid var(--ink);padding:10px 26px 24px}
   @media (max-width:380px){body{padding:12px}main{padding:8px 18px 20px}}
-  h1{margin:0;color:var(--red);font-size:30px;line-height:1.15;text-align:center}
+  h1{margin:0;color:var(--gold);font-size:30px;line-height:1.15;text-align:center}
   h1>span{display:none}
   html[data-lang="gu"] h1>span[lang="gu"],html[data-lang="en"] h1>span[lang="en"]{display:block}
   .sub{margin:4px 0 22px;text-align:center;color:var(--soft);font-size:15px}
@@ -80,7 +81,7 @@
   .or::before,.or::after{content:"";flex:1;border-top:1px solid var(--rule)}
   .notice{font-size:14px;color:var(--soft);text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
 
-  .spin{width:34px;height:34px;margin:10px auto 16px;border:3px solid var(--rule);border-top-color:var(--red);border-radius:50%;animation:spin .9s linear infinite}
+  .spin{width:34px;height:34px;margin:10px auto 16px;border:3px solid var(--rule);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   @media (prefers-reduced-motion:reduce){.spin{animation-duration:4s}}
 </style>
