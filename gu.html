@@ -34,9 +34,10 @@
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--ground);color:var(--ink);
        font:19px/1.45 "Hind Vadodara","Noto Sans Gujarati","Shruti",system-ui,sans-serif;padding:20px}
-  main{width:100%;max-width:420px;background:var(--paper);border:2px solid var(--ink);padding:10px 26px 24px}
+  main{width:100%;max-width:420px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;box-shadow:0 1px 2px rgba(40,30,20,.05),0 6px 20px rgba(40,30,20,.06);padding:12px 26px 24px}
   @media (max-width:380px){body{padding:12px}main{padding:8px 18px 20px}}
-  h1{margin:0;color:var(--ink);font-size:30px;line-height:1.15;text-align:center}
+  /* the calendar sets its title in Source Serif 4; with no web fonts here, Georgia is the nearest */
+  h1{margin:0;color:var(--ink);font-family:"Source Serif 4",Georgia,"Noto Serif Gujarati","Shruti",serif;font-size:31px;font-weight:600;letter-spacing:-.01em;line-height:1.15;text-align:center}
   h1>span{display:none}
   html[data-lang="gu"] h1>span[lang="gu"],html[data-lang="en"] h1>span[lang="en"]{display:block}
   .sub{margin:4px 0 22px;text-align:center;color:var(--soft);font-size:15px}
@@ -54,26 +55,26 @@
   .steps{font-size:15px;color:var(--soft);text-align:center;margin:0 0 6px;letter-spacing:.02em}
 
   .langrow{display:flex;justify-content:flex-end;margin:0 -14px 2px 0}
-  #langBtn{font:inherit;font-size:17px;font-weight:600;min-height:44px;padding:6px 14px;border:1px solid var(--rule);border-radius:4px;background:transparent;color:var(--soft);cursor:pointer}
+  #langBtn{font:inherit;font-size:17px;font-weight:600;min-height:44px;padding:6px 14px;border:1px solid var(--rule);border-radius:8px;background:transparent;color:var(--soft);cursor:pointer}
   html[data-lang="gu"] #langBtn .to-gu,html[data-lang="en"] #langBtn .to-en{display:none}
 
-  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:60px;font:inherit;font-size:20px;font-weight:700;padding:9px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--ink);color:var(--paper);cursor:pointer;margin:0 0 12px;text-align:center}
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:60px;font:inherit;font-size:20px;font-weight:700;padding:9px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--ink);color:var(--paper);cursor:pointer;margin:0 0 12px;text-align:center}
   .btn>span{width:100%}
   .btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule);min-height:52px;font-size:18px;font-weight:600}
   .link{display:flex;width:100%;min-height:48px;justify-content:center;font:inherit;font-size:17px;padding:8px;border:0;background:transparent;color:var(--ink);text-decoration:underline;cursor:pointer;text-align:center}
   a:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
   label{display:flex;font-size:17px;font-weight:600;margin-bottom:6px}
-  input[type=email],input[type=text]{width:100%;font:inherit;font-size:20px;padding:13px;border:2px solid var(--rule);border-radius:4px;background:var(--ground);color:var(--ink);margin:0 0 14px}
+  input[type=email],input[type=text]{width:100%;font:inherit;font-size:20px;padding:13px;border:2px solid var(--rule);border-radius:10px;background:var(--ground);color:var(--ink);margin:0 0 14px}
   #code{font-size:34px;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums;padding:10px 4px 10px 14px}
 
   .msg{color:var(--red);font-size:17px;font-weight:600;text-align:center;margin:0 0 14px}
-  .who{font-weight:700;text-align:center;overflow-wrap:anywhere;word-break:break-word;padding:10px 12px;border:1px solid var(--rule);border-radius:4px;background:var(--ground)}
+  .who{font-weight:700;text-align:center;overflow-wrap:anywhere;word-break:break-word;padding:10px 12px;border:1px solid var(--rule);border-radius:10px;background:var(--ground)}
   .addr{overflow-wrap:anywhere;word-break:break-word}
 
   /* Google draws its own button inside this box; the height is reserved so nothing jumps. */
   .gbtn{min-height:44px;display:flex;justify-content:center;margin:0 0 14px}
-  .hint{border:1px solid var(--rule);border-radius:4px;background:var(--ground);padding:12px 12px 2px;margin:0 0 14px;font-size:15.5px}
+  .hint{border:1px solid var(--rule);border-radius:10px;background:var(--ground);padding:12px 12px 2px;margin:0 0 14px;font-size:15.5px}
   .hint .btn{min-height:46px;font-size:15px}
   .or{display:flex;align-items:center;gap:10px;color:var(--soft);font-size:15px;margin:10px 0 16px}
   .or>span>span{display:none}
