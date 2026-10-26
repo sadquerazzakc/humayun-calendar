@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en" data-lang="en">
+<html lang="en" data-lang="en" translate="no">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>હુમાયૂન કેલેન્ડર · Humayun Calendar</title>
 <meta name="robots" content="noindex,nofollow">
+<!-- Both languages are built in. A phone set to translate pages automatically would turn the
+     Gujarati into English (and mangle the names), so browser translation is switched off. -->
+<meta name="google" content="notranslate">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="હુમાયૂન કેલેન્ડર · Humayun Calendar">
 <meta property="og:description" content="Atba-e-Qayem">
@@ -269,8 +272,9 @@
   function setEmail(el, email) { el.textContent = email || ''; el.hidden = !email; }
   function stop(key) { setMsg($('stopMsg'), key); show('stop'); }
 
-  // The toggle changes the language for this visit only. It is not remembered: index.html (the main
-  // address) and en.html open in English and gu.html in Gujarati, and each must open the way its link promises.
+  // A first visit opens the way its link promises: index.html (the main address) and en.html in English,
+  // gu.html in Gujarati. After that the member's own choice wins everywhere: the toggle below stores it,
+  // and both this page and the calendar open in it next time.
   function setLang(next) {
     lang = (next === 'en') ? 'en' : 'gu';
     root.setAttribute('data-lang', lang); root.lang = lang;
@@ -581,7 +585,8 @@
   function showHint() { $('gwait').hidden = true; $('ghint').hidden = false; }
 
   // ---------- buttons ----------
-  $('langBtn').addEventListener('click', function () { setLang(lang === 'gu' ? 'en' : 'gu'); });
+  // A tap here is the member choosing a language: the calendar opens in it and keeps it next time.
+  $('langBtn').addEventListener('click', function () { setLang(lang === 'gu' ? 'en' : 'gu'); store.set('humayun.lang', lang); });
 
   $('toCode').addEventListener('click', function () {
     try { window.google.accounts.id.cancel(); } catch (e) {}
@@ -647,9 +652,10 @@
 
   // ---------- start ----------
   function start() {
-    // Language: this page's own default (index.html and en.html are English, gu.html is Gujarati -
-    // the only difference between the files). The toggle can change it for this visit.
-    setLang(root.getAttribute('data-lang'));
+    // Language: the one the member last chose (here or in the calendar), else this page's own default
+    // (index.html and en.html are English, gu.html is Gujarati - the only difference between the files).
+    var saved = store.get('humayun.lang');
+    setLang(saved === 'en' || saved === 'gu' ? saved : root.getAttribute('data-lang'));
 
     if (!window.fetch || !window.Promise) { stop('old_browser'); return; }
     if (/^PASTE_/.test(CONFIG.SCRIPT_URL) || /^PASTE_/.test(CONFIG.CLIENT_ID)) { stop('not_ready'); return; }
